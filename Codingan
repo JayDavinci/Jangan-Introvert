@@ -1,0 +1,43 @@
+N = int(input("Masukkan Jumlah Kursi: "))
+S = input("Masukkan list-tempat duduk: ").strip()
+
+def pilih_kursi(N, S):
+    max_jarak = -1
+    kursi_terpilih = -1
+    
+    for i in range(N):
+        if S[i] == 'K':
+            jarak_kanan = 0
+            jarak_kiri = 0
+            
+            # Hitung jarak ke kursi terisi di sebelah kanan
+            for j in range(i+1, N):
+                if S[j] == 'T':
+                    break
+                jarak_kanan += 1
+            
+            # Hitung jarak ke kursi terisi di sebelah kiri
+            for j in range(i-1, -1, -1):
+                if S[j] == 'T':
+                    break
+                jarak_kiri += 1
+            
+            # Jarak maksimal dari kursi kosong ke kursi terisi di sebelah kanan dan kiri
+            jarak_maksimal = min(jarak_kanan, jarak_kiri)
+            
+            # Jika kursi di sebelah kanan kosong semua, pilih kursi tersebut
+            if jarak_kanan == 0 and jarak_kiri > max_jarak:
+                max_jarak = jarak_kiri
+                kursi_terpilih = i + 1
+            
+            # Jika jarak maksimal melebihi yang sebelumnya, update kursi_terpilih
+            elif jarak_maksimal > max_jarak:
+                max_jarak = jarak_maksimal
+                kursi_terpilih = i + 1
+                
+    if kursi_terpilih == -1:
+        return "Penuh"
+    else:
+        return kursi_terpilih
+
+print(pilih_kursi(N, S))
